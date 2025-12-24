@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Noggy ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+:root{
+    --bg1:#ff758c;
+    --bg2:#ff7eb3;
+    --text:white;
+}
+body.night{
+    --bg1:#0f1029;
+    --bg2:#2c1f4a;
+}
+
+body{
+    margin:0;
+    overflow:hidden;
+    height:100vh;
+    background:linear-gradient(120deg,var(--bg1),var(--bg2));
+    font-family:'Segoe UI',sans-serif;
+    text-align:center;
+    color:var(--text);
+    transition:background 1.2s;
+    cursor:pointer;
+}
+
+/* Text */
+h1{
+    margin-top:23vh;
+    font-size:3.1em;
+    text-shadow:0 0 18px rgba(0,0,0,.4);
+}
+p{
+    font-size:1.5em;
+    margin:10px 20px;
+}
+.love-msg{
+    font-size:1.3em;
+    font-style:italic;
+    opacity:.95;
+}
+.secret{
+    font-family:'Pacifico',cursive;
+    font-size:1.6em;
+    margin-top:18px;
+    opacity:0;
+    transition:opacity 1s;
+}
+
+/* Floating hearts & stars */
+.float{
+    position:absolute;
+    animation:floatUp 7s linear infinite;
+}
+@keyframes floatUp{
+    from{transform:translateY(100vh) scale(.5);opacity:1}
+    to{transform:translateY(-12vh) scale(1.2);opacity:0}
+}
+
+/* Bird */
+.bird{
+    position:absolute;
+    top:15%;
+    left:-80px;
+    font-size:60px;
+    animation:fly 15s linear infinite;
+}
+@keyframes fly{
+    from{left:-80px}
+    to{left:110%}
+}
+
+/* Controls */
+.controls{
+    position:fixed;
+    bottom:18px;
+    right:18px;
+}
+.control-btn{
+    background:rgba(255,255,255,.2);
+    border:1px solid rgba(255,255,255,.35);
+    color:white;
+    padding:8px 14px;
+    border-radius:18px;
+    cursor:pointer;
+}
+
+/* Popup */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+.popup-content{
+    background:white;
+    padding:34px 44px;
+    border-radius:18px;
+    max-width:420px;
+    text-align:center;
+}
+.popup-content h2{
+    color:#ff5f8a;
+}
+.popup-content p{
+    color:#444;
+    font-size:1.15em;
+}
+.popup-content button{
+    margin-top:18px;
+    padding:10px 22px;
+    border:none;
+    border-radius:22px;
+    background:#ff5f8a;
+    color:white;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body onclick="registerTap()">
+
+<h1>For You, Noggy ❤️</h1>
+<p>You feel like home</p>
+<p class="love-msg" id="loveMsg">Softly choosing you</p>
+<div class="secret" id="secretMsg">I’d still choose you, every time</div>
+
+<div class="bird">🐦</div>
+
+<div class="controls">
+    <button class="control-btn" onclick="toggleNight(event)">🌙</button>
+</div>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <h2>Just Us 💖</h2>
+        <p>
+            Some feelings don’t need a reason.<br><br>
+            They just exist — quietly,<br>
+            like us.
+        </p>
+        <button onclick="closePopup(event)">Stay</button>
+    </div>
+</div>
+
+<script>
+let taps=0;
+
+// Floating hearts or stars
+function createFloat(){
+    const el=document.createElement("div");
+    el.className="float";
+    const night=document.body.classList.contains("night");
+    el.innerHTML=night?"✨":"❤️";
+    el.style.left=Math.random()*100+"vw";
+    el.style.fontSize=14+Math.random()*20+"px";
+    el.style.animationDuration=5+Math.random()*4+"s";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),9000);
+}
+setInterval(createFloat,480);
+
+// Changing messages
+const messages=[
+    "Softly choosing you",
+    "You make things feel safe",
+    "My favorite calm",
+    "Where my thoughts rest",
+    "Still you"
+];
+let i=0;
+setInterval(()=>{
+    const el=document.getElementById("loveMsg");
+    el.style.opacity=0;
+    setTimeout(()=>{
+        i=(i+1)%messages.length;
+        el.textContent=messages[i];
+        el.style.opacity=1;
+    },500);
+},4200);
+
+// Taps
+function registerTap(){
+    taps++;
+    if(taps===4){
+        document.getElementById("popup").style.display="flex";
+    }
+    if(taps===7){
+        document.getElementById("secretMsg").style.opacity=1;
+    }
+}
+function closePopup(e){
+    e.stopPropagation();
+    document.getElementById("popup").style.display="none";
+}
+
+// Night
+function toggleNight(e){
+    e.stopPropagation();
+    document.body.classList.toggle("night");
+}
+</script>
+
+</body>
+</html>
